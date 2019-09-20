@@ -9,7 +9,7 @@ class HttpHandler {
 private:
     std::string rootDir;
 
-    std::unordered_map <std::string, std::string> mine_map =
+    std::unordered_map <std::string, std::string> mime_map =
     {
         {"txt", "text/plain"},
         {"html", "text/html"},
@@ -22,25 +22,25 @@ private:
         {"swf", "application/x-shockwave-flash"}
     };
     
-    const std::string forbidden =
+    const char* forbidden =
     "<html>"
         "<head><title>Forbidden</title></head>"
         "<body><h1>403 Forbidden</h1></body>"
     "</html>";
     
-    const std::string notFound =
+    const char* notFound =
     "<html>"
         "<head><title>Not Found</title></head>"
         "<body><h1>404 Not Found</h1></body>"
     "</html>";
 
-    const std::string notAllowed =
+    const char* notAllowed =
     "<html>"
         "<head><title>Not Allowed</title></head>"
         "<body><h1>405 Method Not Allowed</h1></body>"
     "</html>";
 
-    const std::string notImplemented =
+    const char* notImplemented =
     "<html>"
         "<head><title>Not Implemented</title></head>"
         "<body><h1>501 Not Implemented</h1></body>"
@@ -50,20 +50,23 @@ private:
     bool fileExists(const std::string& path);
 
     std::string urlDecode(const std::string &url);
-    std::string getCode(int &code);
+    std::string getCode(int code);
     std::string getFileType(const std::string& path);
-    std::string buidHeader(size_t &fileLength, const std::string& fileType,
-        const std::string &protocol,  const std::string &code);
-    
+    std::string buildHeader(size_t fileLength, const std::string &fileType, const std::string &protocol,
+        const std::string &code);
+
     void GET(const std::string& url, const std::string& protocol, std::string& header, std::string& path,
         std::string& responce);
-    void HEAD(const std::string& url, const std::string& protocol, std::string& header, std::string& responce);
+    void HEAD(const std::string& url, const std::string& protocol, std::string& header);
     void NotAllowed(const std::string& protocol, std::string& header, std::string& responce);
     void NotImplemented(const std::string& protocol, std::string& header, std::string& responce);
 
-
-
-
+public:
+    void RequestHandle(std::string request, std::string& header, std::string& path, std::string& responce);
+    
+    HttpHandler(const std::string& root);
+    HttpHandler();
+    ~HttpHandler(){};
 };
 
 #endif  // HTTP_HANDLER_H
