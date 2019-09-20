@@ -104,7 +104,6 @@ void HttpHandler::GET(const std::string &url, const std::string &protocol, std::
         header = buildHeader((size_t )file.st_size, type, protocol, getCode(code));
         header.append("\r\n");
         path = pathTemp;
-        std::ifstream in(path);
     } else {
         code = (dir) ? 403 : 404;
         header  = buildHeader(strlen((dir) ? forbidden : notFound), "html", protocol, getCode(code));
