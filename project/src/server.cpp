@@ -68,7 +68,7 @@ void Server::Listen() {
                     int flags = fcntl((int)coonectionfd, F_GETFL, 0);
                     if (fcntl((int)coonectionfd, F_SETFL, flags | O_NONBLOCK) != -1) {
                         std::function<int(int)> Add;
-                        Add = std::bind(&Epoll::AddFd, &*epollEngine, coonectionfd, std::placeholders::_1 );
+                        Add = std::bind(&Epoll::AddFd, epollEngine, coonectionfd, std::placeholders::_1 );
                         threadPool->AddTask(Add);
                     }
                 }

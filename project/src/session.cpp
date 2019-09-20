@@ -14,7 +14,8 @@ HttpSession::HttpSession(int fd, HttpHandler* handler, int epoll) : fd(fd),
                                                             epollfd(epoll),
                                                             leftData(0),
                                                             sentData(0),
-                                                            fileBufferCount(0), 
+                                                            fileBufferCount(0),
+                                                            fileBuffer(""),
                                                             flagEAGAIN(false) {
 }
 
@@ -63,7 +64,7 @@ void HttpSession::RecvHeader() {
                 }
             }
         }
-    } catch (std::runtime_error ex) {
+    } catch (std::runtime_error &ex) {
         throw std::runtime_error("send: " + std::string(strerror(errno)));
     }
 }
@@ -98,12 +99,9 @@ void HttpSession::RecvFile() {
     }
 }
 
-
-
 bool HttpSession::write(const char *data, size_t size) {
-    ssize_t sendResult;
     if (leftData > 0) {
-        sendResult = send(fd, data + sentData, size - sentData, 0);
+        ssize_t sendResult = send(fd, data + sentData, size - sentData, 0);
         if (sendResult == -1) {
             throw std::runtime_error("send: " + std::string(strerror(errno)));
         }
@@ -118,7 +116,7 @@ void HttpSession::RecvResponce() {
         if( write(responce.data(), responce.size()) ) {
             clientStatus = WANT_CLOSE;
         }
-    } catch (std::runtime_error ex) {
+    } catch (std::runtime_error &ex) {
         throw std::runtime_error("send: " + std::string(strerror(errno)));
     }
 }
