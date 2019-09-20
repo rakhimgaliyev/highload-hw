@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:19.04
 
 LABEL name="Rakhimgaliyev Temirlan"
 LABEL email="rakhimgaliev56@gmail.com"
