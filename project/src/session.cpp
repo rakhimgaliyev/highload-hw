@@ -8,7 +8,6 @@
 #include <sys/epoll.h>
 #include "session.h"
 
-
 HttpSession::HttpSession(int fd, HttpHandler* handler, int epoll) : fd(fd),
                                                             clientStatus(WANT_READ),
                                                             handler(handler),
@@ -19,18 +18,8 @@ HttpSession::HttpSession(int fd, HttpHandler* handler, int epoll) : fd(fd),
                                                             flagEAGAIN(false) {
 }
 
-
 HttpSession::~HttpSession() {
 }
-
-
-void HttpSession::mod(uint32_t flag) {
-    epoll_event ev;
-    ev.events = flag | EPOLLERR | EPOLLHUP | EPOLLET;
-    ev.data.fd = fd;
-    epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &ev);
-}
-
 
 void HttpSession::Close() {
     request.clear();
@@ -136,8 +125,4 @@ void HttpSession::RecvResponce() {
 
 ClientStatus HttpSession::Status() {
     return clientStatus;
-}
-
-void HttpSession::SetStatus(ClientStatus status) {
-    clientStatus = status;
 }

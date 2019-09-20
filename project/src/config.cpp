@@ -41,16 +41,8 @@ std::uint16_t Config::Port() {
     return port;
 }
 
-std::uint16_t Config::Thread() {
-    return thread;
-}
-
 std::string Config::Addr() {
     return addr;
-}
-
-bool Config::IsValid() {
-    return isValid;
 }
 
 std::string Config::Root() {

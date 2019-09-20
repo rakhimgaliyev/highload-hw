@@ -27,8 +27,6 @@ public:
     ~Server();
 
     void Listen();
-    void Stop();
-
 };
 
 #endif  // SERVER_H

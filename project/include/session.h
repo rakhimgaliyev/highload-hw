@@ -27,7 +27,6 @@ private:
     char fileBuffer[BUFFER_SIZE];
     bool flagEAGAIN;
     bool write (const char *data, size_t size);
-    void mod(uint32_t flag);
 
 public:
     HttpSession(int fd, HttpHandler* handler, int epoll);
@@ -40,7 +39,6 @@ public:
     void RecvResponce();
     ClientStatus Status();
     void Close();
-    void SetStatus(ClientStatus status);
 };
 
 #endif  // HTTP_SESSION_H

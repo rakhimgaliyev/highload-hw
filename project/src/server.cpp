@@ -76,7 +76,3 @@ void Server::Listen() {
         }
     }
 }
-
-void Server::Stop() {
-    stop = true;
-}

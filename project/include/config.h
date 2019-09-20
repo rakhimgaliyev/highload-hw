@@ -38,12 +38,10 @@ public:
     ~Config();
 
     std::uint16_t Port();
-    std::uint16_t Thread();
     std::string Addr();
     std::string Root();
     std::uint32_t QueueSize();
     std::uint16_t Cpu();
-    bool IsValid();
 };
 
 #endif  // CONFIG_H
