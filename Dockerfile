@@ -12,7 +12,7 @@ ENV DEBIAN_FRONTEND 'noninteractive'
 RUN apt-get update -y
 RUN apt-get install -y --no-install-recommends apt-utils
 
-RUN apt-get install -y gcc-c++
+RUN apt-get install -y g++
 RUN apt-get install -y make
 
 ADD . /app
