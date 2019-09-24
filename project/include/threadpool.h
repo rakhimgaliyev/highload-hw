@@ -19,7 +19,6 @@ private:
     std::vector<std::thread> threads;
     std::queue<std::function<int(int)>> tasks;
     std::mutex queueMutex;
-    std::mutex mapMutex;
     std::atomic_bool stop;
     int maxEpollEvents;
     int timeout;
