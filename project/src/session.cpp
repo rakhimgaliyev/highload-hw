@@ -85,6 +85,7 @@ void HttpSession::RecvFile() {
     }
     if (file.is_open()) {
         while ((fileBufferCount = (size_t) file.readsome(fileBuffer, BUFFER_SIZE)) > 0) {
+            // mmap
             leftData = fileBufferCount;
             sentData = 0;
             while (leftData > 0) {
@@ -105,6 +106,7 @@ bool HttpSession::write(const char *data, size_t size) {
     if (leftData > 0) {
         ssize_t sendResult = send(fd, data + sentData, size - sentData, 0);
         if (sendResult == -1) {
+            // sendfile
             throw std::runtime_error("send: " + std::string(strerror(errno)));
         }
         sentData = sendResult;

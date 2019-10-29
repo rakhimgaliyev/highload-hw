@@ -12,7 +12,7 @@
 #define QUEUE "queue_size"
 
 #define DEFAULT_ADDR "0.0.0.0"
-#define DEFAULT_PORT 8080
+#define DEFAULT_PORT 80
 #define DEFAULT_CPU 1
 #define DEFAULT_THREAD 1
 #define DEFAULT_ROOT "/"
