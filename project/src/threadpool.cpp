@@ -44,14 +44,24 @@ void ThreadPool::worker() {
         } else {
             epoll_event events[maxEpollEvents];
             ssize_t fdcount = epollEngine->Wait(events);
-            std::cout << fdcount << std::endl;
             for (uint32_t  i = 0; i < fdcount; ++i) {
                 int fd = events[i].data.fd;
                 HttpSession *session;
                 session = sessionMap.at(fd);
                 if (events[i].events & EPOLLIN) {
                     if (session->Status() == WANT_READ) {
-                        session->Read();
+                        bool ok = session->Read();
+                        if (!ok) {
+                            epoll_ctl(epollEngine->Epollfd(), EPOLL_CTL_DEL, fd, 0);
+                            session->Close();
+                            delete session;
+                            sessionMap.erase(fd);
+                        }
+                    } else {
+                            epoll_ctl(epollEngine->Epollfd(), EPOLL_CTL_DEL, fd, 0);
+                            session->Close();
+                            delete session;
+                            sessionMap.erase(fd);
                     }
                 } else if (events[i].events & EPOLLOUT) {
                     switch (session->Status()) {
@@ -76,7 +86,7 @@ void ThreadPool::worker() {
                         default:
                             break;
                     }
-                } else if (events[i].events & (EPOLLRDHUP | EPOLLHUP | EPOLLERR)) {
+                } else {
                     epoll_ctl(epollEngine->Epollfd(), EPOLL_CTL_DEL, fd, 0);
                     session->Close();
                     delete session;

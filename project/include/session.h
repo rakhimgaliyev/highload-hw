@@ -33,7 +33,7 @@ public:
     ~HttpSession();
 
     void Init();
-    void Read();
+    bool Read();
     void RecvHeader();
     void RecvFile();
     void RecvResponce();

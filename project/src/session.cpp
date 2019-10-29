@@ -6,6 +6,7 @@
 #include <bits/ios_base.h>
 #include <unistd.h>
 #include <sys/epoll.h>
+#include <iostream>
 #include "session.h"
 
 HttpSession::HttpSession(int fd, HttpHandler* handler, int epoll) : fd(fd),
@@ -31,7 +32,7 @@ void HttpSession::Close() {
     close(fd);
 }
 
-void HttpSession::Read() {
+bool HttpSession::Read() {
     char buf[ BUFFER_SIZE];
     ssize_t n = recv(fd, buf, sizeof(buf), 0);
     if (n == -1 && errno != EAGAIN) {
@@ -43,8 +44,9 @@ void HttpSession::Read() {
         leftData = responceHeader.size();
         sentData = 0;
         clientStatus = WANT_HEADER;
+        return true;
     } catch (std::runtime_error) {
-        return;
+        return false;
     }
 }
 
