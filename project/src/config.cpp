@@ -20,9 +20,6 @@ void Config::parse() {
         if (temp == CPU) {
             conf >> cpu;
         }
-        // if (temp == THREAD) {
-        //     conf >> thread;
-        // }
         if (temp == QUEUE) {
             conf >> queueSize;
         }

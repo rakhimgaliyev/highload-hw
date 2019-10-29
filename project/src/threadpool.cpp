@@ -5,6 +5,7 @@
 #include "handler.h"
 #include "session.h"
 #include "threadpool.h"
+#include <iostream>
 
 ThreadPool::ThreadPool(size_t threadCount, int maxEpollEvents, int timeout, HttpHandler* handler) : stop(false)
         , maxEpollEvents(maxEpollEvents), timeout(timeout) {
@@ -43,6 +44,7 @@ void ThreadPool::worker() {
         } else {
             epoll_event events[maxEpollEvents];
             ssize_t fdcount = epollEngine->Wait(events);
+            std::cout << fdcount << std::endl;
             for (uint32_t  i = 0; i < fdcount; ++i) {
                 int fd = events[i].data.fd;
                 HttpSession *session;
