@@ -46,7 +46,7 @@ void ThreadPool::worker() {
             for (uint32_t  i = 0; i < fdcount; ++i) {
                 int fd = events[i].data.fd;
                 HttpSession *session;
-               session = sessionMap.at(fd);
+                session = sessionMap.at(fd);
                 if (events[i].events & EPOLLIN) {
                     if (session->Status() == WANT_READ) {
                         session->Read();

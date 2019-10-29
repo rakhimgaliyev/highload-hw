@@ -73,7 +73,7 @@ std::string HttpHandler::buildHeader(size_t fileLength, const std::string &fileT
 
     response << protocol
              << ' ' << code << "\r\n"
-             << "Server: WebServer \r\n"
+             << "Server: cpp Epoll \r\n"
              << "Date: " << std::ctime(&t)
              << "Connection: close\r\n"
              << "Content-Length: " << fileLength << "\r\n"
@@ -153,7 +153,8 @@ void HttpHandler::NotImplemented(const std::string &protocol, std::string& heade
 }
 
 void HttpHandler::RequestHandle(std::string request, std::string& header, std::string& path, std::string& responce) {
-    std::string method, url, protocol = "HTTP/1.1";
+    // std::string method, url, protocol = "HTTP/1.1";
+    std::string method, url, protocol = "";
     std::istringstream istringstream(request);
 
     if(!readReq(method, istringstream)) {
